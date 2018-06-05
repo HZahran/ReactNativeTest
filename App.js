@@ -17,7 +17,7 @@ const mockData = [
 ]
 
 const CustomListItem = ({ item, separators, index }) => (
-  <View key={`Image ${index}`} style={styles.listItem}>
+  <View style={styles.listItem}>
     <Image
       style={styles.image}
       source={{ uri: item.src }} />
@@ -25,7 +25,7 @@ const CustomListItem = ({ item, separators, index }) => (
 )
 
 const CustomDotItem = ({ item, separators, index }) => (
-  <View key={`Dot ${index}`}>
+  <View>
     <Text style={[styles.dot,
     item.active ? styles.activeDot : styles.normalDot]}>
       •
@@ -49,8 +49,8 @@ export default class App extends Component {
 
   render() {
     const { activeIndex } = this.state
-    let mainData = mockData.map((item, index) => ({ ...item, index }))
-    let dotsData = mockData.map((item, index) => ({ active: index === activeIndex }))
+    let mainData = mockData.map((item, index) => ({ ...item, index, key: `Images ${index}` }))
+    let dotsData = mockData.map((item, index) => ({ active: index === activeIndex, key: `Dots ${index}` }))
 
     return (
       <View style={styles.container}>
