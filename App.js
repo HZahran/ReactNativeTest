@@ -38,6 +38,11 @@ export default class App extends Component {
     activeIndex: 0,
   }
 
+  constructor(props) {
+    super(props)
+
+    this.viewabilityConfig = { viewAreaCoveragePercentThreshold: 50 }
+  }
   changeViewedItem = ({ viewableItems, changed }) => {
     this.setState({ activeIndex: viewableItems ? viewableItems[0].index : 0 })
   }
@@ -56,6 +61,8 @@ export default class App extends Component {
             data={mainData}
             renderItem={CustomListItem}
             onViewableItemsChanged={this.changeViewedItem}
+            viewabilityConfig={this.viewabilityConfig}
+            showsHorizontalScrollIndicator={false}
             horizontal
           />
         </View>
@@ -64,6 +71,7 @@ export default class App extends Component {
             ItemSeparatorComponent={CustomSeparator}
             data={dotsData}
             renderItem={CustomDotItem}
+            showsHorizontalScrollIndicator={false}
             horizontal
           />
 
@@ -91,7 +99,7 @@ const styles = StyleSheet.create({
   image: {
     width: 300,
     height: 300,
-    margin: 10
+    margin: 20
   },
   dot: {
     margin: 5
