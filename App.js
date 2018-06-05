@@ -28,8 +28,11 @@ const CustomListItem = ({ item, separators, index }) => (
 )
 
 const CustomDotItem = ({ item, separators, index }) => (
-  <View key={`Dot ${index}`} style={styles.listItem}>
-    <Text style={styles.dot}>{item.active ? 'Active' : 'Not Active'}</Text>
+  <View key={`Dot ${index}`}>
+    <Text style={[styles.dot,
+    item.active ? styles.activeDot : styles.normalDot]}>
+      •
+    </Text>
   </View>
 )
 
@@ -54,7 +57,7 @@ export default class App extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.headerText}>Mo Salah</Text>
+        <Text style={styles.headerText}>{"Mo Salah <3"} </Text>
         <View style={styles.listView}>
           <FlatList
             ItemSeparatorComponent={CustomSeparator}
@@ -65,8 +68,6 @@ export default class App extends Component {
             showsHorizontalScrollIndicator={false}
             horizontal
           />
-        </View>
-        <View style={styles.listView}>
           <FlatList
             ItemSeparatorComponent={CustomSeparator}
             data={dotsData}
@@ -74,7 +75,6 @@ export default class App extends Component {
             showsHorizontalScrollIndicator={false}
             horizontal
           />
-
         </View>
       </View >
     );
@@ -86,23 +86,35 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#0077B5',
   },
   headerText: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    fontFamily: 'Lato sans-serif'
+    fontSize: 50,
+    textAlign: 'center',
+    fontFamily: 'Lato sans-serif',
+    color: '#F5FCFF'
   },
   listView: {
-    height: 250
+    height: 350,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   image: {
-    width: 300,
-    height: 300,
-    margin: 20
+    width: 250,
+    height: 250,
+    margin: 20,
+    borderWidth: 2,
+    borderColor: '#F5FCFF'
   },
   dot: {
-    margin: 5
+    margin: 5,
+    fontSize: 50
+  },
+  activeDot: {
+    opacity: 1
+  },
+  normalDot: {
+    opacity: 0.4
   },
   separators: {
     backgroundColor: 'black'
