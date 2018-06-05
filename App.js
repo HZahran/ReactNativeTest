@@ -1,39 +1,74 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
 
 import React, { Component } from 'react';
 import {
-  Platform,
   StyleSheet,
   Text,
-  View
+  View,
+  FlatList,
+  Image
 } from 'react-native';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+const mockData = [
+  { src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTAPSndSFtbUOtXXMSwb5O59e4s4wnOY21pq_rV9KjugzJA4ZNuA' },
+  { src: 'https://cdn.images.express.co.uk/img/dynamic/67/590x/Mohamed-Salah-964789.jpg?r=1527412271188' },
+  { src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK7mhW-API_duVTio4D2jDmVGuUVNp5HV1Jfr6IjB83R7Jwv_nhA' },
+  { src: 'https://egyptianstreets.com/wp-content/uploads/2018/05/salah-injury-ramos-e1527368615303.jpg' },
+  { src: 'https://talksport.com/sites/default/files/styles/taxonomy-img/public/field/image/201805/salah_5.jpg' },
+]
 
-type Props = {};
-export default class App extends Component<Props> {
+const CustomSeparator = ({ highlighted }) => (
+  <View style={[styles.separators, highlighted && { marginLeft: 0 }]} />
+)
+const CustomListItem = ({ item, separators, index }) => (
+  <View key={`Image ${index}`} style={styles.listItem}>
+    <Image
+      style={styles.image}
+      source={{ uri: item.src }} />
+  </View>
+)
+
+const CustomDotItem = ({ item, separators, index }) => (
+  <View key={`Dot ${index}`} style={styles.listItem}>
+    <Text style={styles.dot}>{item.active ? 'Active' : 'Not Active'}</Text>
+  </View>
+)
+
+export default class App extends Component {
+  state = {
+    activeIndex: 0,
+  }
+
+  changeViewedItem = ({ viewableItems, changed }) => {
+    this.setState({ activeIndex: viewableItems ? viewableItems[0].index : 0 })
+  }
+
   render() {
+    const { activeIndex } = this.state
+    let mainData = mockData.map((item, index) => ({ ...item, index }))
+    let dotsData = mockData.map((item, index) => ({ active: index === activeIndex }))
+
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-      </View>
+        <Text style={styles.headerText}>Mo Salah</Text>
+        <View style={styles.listView}>
+          <FlatList
+            ItemSeparatorComponent={CustomSeparator}
+            data={mainData}
+            renderItem={CustomListItem}
+            onViewableItemsChanged={this.changeViewedItem}
+            horizontal
+          />
+        </View>
+        <View style={styles.listView}>
+          <FlatList
+            ItemSeparatorComponent={CustomSeparator}
+            data={dotsData}
+            renderItem={CustomDotItem}
+            horizontal
+          />
+
+        </View>
+      </View >
     );
   }
 }
@@ -45,14 +80,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  headerText: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    fontFamily: 'Lato sans-serif'
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  listView: {
+    height: 250
   },
+  image: {
+    width: 300,
+    height: 300,
+    margin: 10
+  },
+  dot: {
+    margin: 5
+  },
+  separators: {
+    backgroundColor: 'black'
+  }
 });
