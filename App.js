@@ -16,9 +16,6 @@ const mockData = [
   { src: 'https://talksport.com/sites/default/files/styles/taxonomy-img/public/field/image/201805/salah_5.jpg' },
 ]
 
-const CustomSeparator = ({ highlighted }) => (
-  <View style={[styles.separators, highlighted && { marginLeft: 0 }]} />
-)
 const CustomListItem = ({ item, separators, index }) => (
   <View key={`Image ${index}`} style={styles.listItem}>
     <Image
@@ -60,7 +57,6 @@ export default class App extends Component {
         <Text style={styles.headerText}>{"Mo Salah <3"} </Text>
         <View style={styles.listView}>
           <FlatList
-            ItemSeparatorComponent={CustomSeparator}
             data={mainData}
             renderItem={CustomListItem}
             onViewableItemsChanged={this.changeViewedItem}
@@ -69,7 +65,6 @@ export default class App extends Component {
             horizontal
           />
           <FlatList
-            ItemSeparatorComponent={CustomSeparator}
             data={dotsData}
             renderItem={CustomDotItem}
             showsHorizontalScrollIndicator={false}
